@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+.landing-page {
+    .question-header {
+        color: red;
+        display: flex;
+        justify-content: center;
+    }
+    .articles {
+        display: flex;
+        flex-direction: row;
+        .column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 50%;
+        }
+    }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

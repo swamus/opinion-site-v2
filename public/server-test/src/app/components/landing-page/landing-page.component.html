@@ -1,0 +1,45 @@
+
+<div class="landing-page">
+    <div class="question-header">
+        <h1>Buttholes - good or bad?</h1>
+    </div>
+
+
+    <div class="articles">
+        <div class="column pro-column">
+            <h2>Pros</h2>
+            <div class="article-block" *ngFor="let item of proData">
+                <h1>{{item.title}}</h1>
+                <p>{{item.text}}</p>
+                <a [routerLink]="['/article-page', item._id]">More Details</a>
+                <!-- <a routerLink='article-page/7' routerLinkActive='active'>More...</a> -->
+            </div>
+        </div>
+        <div class="column con-column">
+            <h2>Cons</h2>
+            <div class="article-block">
+                <h1>Title</h1>
+                <p>Short Description</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form *ngIf='isLoggedIn()'[formGroup]="postForm" (ngSubmit)="addPost(postForm.value)">
+    <h3>Add Post</h3>
+    
+    <div>
+      <input type="text"
+      placeholder="Title"
+      formControlName="title">
+    </div>
+    <div>
+      <input type="text"
+      placeholder="Text"
+      formControlName="text">
+    </div>
+    <button type="submit">Post</button>
+    </form>
+    <div *ngIf="!isLoggedIn()">
+        <h3>You need to <a [routerLink]="['/login']">Log In</a> or <a [routerLink]="['/register']">Register</a> before you can add a post.</h3>
+      </div>
