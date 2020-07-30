@@ -1,11 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* You can add global styles to this file, and also import other style files */
+.page-wrapper {
+    margin: 0 75px;
+}
+
 .landing-page {
+    margin: 0 40px;
     .question-header {
-        color: red;
+        width: 100%;
         display: flex;
-        justify-content: center;
+        align-items: center;
+        flex-direction:column;
+        .page-topic-title {
+            color: white;
+            font-size: 18px;
+            position: relative;
+            padding-left: 8px;
+            margin-bottom: 5px;
+            &:before {
+                content: '';
+                position: absolute;
+                left: -5px;
+                top: 0;
+                height: 20px;
+                width: 3px;
+                background: rgb(157,80,187);
+            }
+        }
+        .page-question {
+            color: white;
+            margin: 0 0 0 8px;
+        }
     }
     .articles {
         display: flex;
@@ -19,5 +45,67 @@
         }
     }
 }
+
+.user-input-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    h3.login-header {
+        color: white;
+        font-weight: normal;
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 17px;
+            width: 3px;
+            background: rgb(157,80,187);
+        }
+    }
+    .site-form {
+        .site-login-btn {
+            background: #47CF73;
+            border: 3px solid darken(#47CF73, 17%);
+            padding: 5px 8px;
+            border-radius: 2px;
+            transition: .25s;
+            cursor: pointer;
+            &:hover {
+                background: darken(#47CF73, 14%);
+                border: 3px solid darken(#47CF73, 27%);
+            }
+        }
+        p {
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .site-input {
+            margin-bottom: 15px;
+            height: 22px;
+            font-size: 14px;
+        }
+    }
+    .user-callout {
+        color: white;
+        display: flex;
+        align-items: center;
+        p {
+            margin-left: 35px;
+        }
+    }
+}
+
+
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+     margin: 0; 
+     font-family: Roboto, "Helvetica Neue", sans-serif;
+     background: #131417; 
+    }
+
