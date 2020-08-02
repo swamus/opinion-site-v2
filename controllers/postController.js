@@ -3,11 +3,11 @@ var db = require('./../models/index');
 const postController = {};
 
 postController.post = (req,res)=>{
-    //gets info from post as request body, sets four variables to the four incoming properties
+    //gets info from post as request body, sets three variables to the three incoming properties
     const{
         title,
         text,
-        //link, // Don't need links!
+        isPro,
         // userId - getting it through JWT now
     } = req.body;
     
@@ -17,6 +17,7 @@ postController.post = (req,res)=>{
     const post=new db.Post({
         title,
         text,
+        isPro,
         //link,
         _creator:userId,
     })
@@ -25,6 +26,7 @@ postController.post = (req,res)=>{
         res.status(200).json({
             success:true,
             data:newPost,
+            //If necessary, should be possible to use the req.payload to get the username of the creator and attach it to this object
         });
     }).catch((err)=>{
         res.status(500).json({
@@ -35,9 +37,9 @@ postController.post = (req,res)=>{
 };
 
 
-postController.getAll = (req,res)=>{
+postController.getAllPro = (req,res)=>{
 
-    db.Post.find({}).populate({
+    db.Post.find({isPro:true}).populate({
         path:'_creator',
         select: 'username createdAt -_id'
     }).populate({
@@ -54,13 +56,28 @@ postController.getAll = (req,res)=>{
             message: err
         });
     });
-}
-//The above method gets every post, and replaces the creator ID with {the object that ID points to} (but only the 
-//username and createdAt). And it also replaces the array of comment ID's with 
-//an array of {the actual objects those ID's point to}, but only the comment test, createdAt and creatorID
-//but our commentSchema.pre('find',autoPopulateCreater) function means that anytime a comment is found, the creatorId 
-//is replaced by an object containing the username and createdAt of THAT creator. So that's what we get instead of
-// the number
+};
+
+postController.getAllCon = (req,res)=>{
+
+    db.Post.find({isPro:false}).populate({
+        path:'_creator',
+        select: 'username createdAt -_id'
+    }).populate({
+        path:'_comments',
+        select:'text createdAt _creator',
+        match:{isDeleted:false}
+    }).then((posts)=>{
+        return res.status(200).json({
+            success:true,
+            data:posts
+        });
+    }).catch((err)=>{
+        return res.status(500).json({
+            message: err
+        });
+    });
+};
 
 
 postController.paramFill = (req,res,next,id)=>{

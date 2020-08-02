@@ -38,11 +38,18 @@ export class PostsService {
 
 //posts=[]
 
-getAll=function(){
-    return this.http.get('/api/posts')
+getAllPro=function(){
+    return this.http.get('/api/posts-pro')
     .pipe(
       catchError(this.handleError)
   );
+};
+
+getAllCon=function(){
+  return this.http.get('/api/posts-con')
+  .pipe(
+    catchError(this.handleError)
+);
 };
 
 create=function(post){

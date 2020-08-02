@@ -29,7 +29,9 @@ routes.post('/login', userController.login);
 routes.param('post', postController.paramFill);
 
 //Post Routes
-routes.get('/posts',postController.getAll);
+routes.get('/posts-pro',postController.getAllPro);
+
+routes.get('/posts-con',postController.getAllCon);
 
 routes.post('/posts',auth, postController.post);
 

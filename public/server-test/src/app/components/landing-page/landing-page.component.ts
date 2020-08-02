@@ -24,13 +24,20 @@ export class LandingPageComponent implements OnInit {
   }
 
   proData;
+  conData;
 
   ngOnInit(): void {
-    //need to run posts.getAll, set proData=posts.posts after doing that
-    this.posts.getAll().subscribe((data)=>{
-      console.log('getAll successful')
+
+    this.posts.getAllPro().subscribe((data)=>{
+      console.log('getAllPro successful')
       this.proData = JSON.parse(JSON.stringify(data.data));
-      //wait, this is an array not an object. I guess stringify still works!
+    },
+    (err)=>{console.error(err);
+    })
+
+    this.posts.getAllCon().subscribe((data)=>{
+      console.log('getAllPro successful')
+      this.conData = JSON.parse(JSON.stringify(data.data));
     },
     (err)=>{console.error(err);
     })
@@ -43,14 +50,19 @@ export class LandingPageComponent implements OnInit {
 
   //Method for making post:
   //
-  addPost = (postValue)=>{
+  addPost = (postValue, isPro)=>{
       if(!postValue.title || postValue.title===''){return; };
       this.posts.create({
           title: postValue.title,
           text: postValue.text,
+          isPro:isPro,
       }).subscribe((data)=>{
+        if (data.data.isPro) {
         this.proData.push(data.data);
-        //this.postForm.reset();
+        }else{
+        this.conData.push(data.data);
+        }
+
       },
       (err)=>{console.error(err);
       },

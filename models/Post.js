@@ -15,8 +15,10 @@ const postSchema = new Schema({
    createdAt:{type:Date,default:Date.now},
    _creator:{type:Schema.ObjectId, ref:'User'},
    //tells the schema to expect an ID here, from a document within the 'users' collection
-   _comments:[{type:Schema.ObjectId, ref:'Comment'}]
+   _comments:[{type:Schema.ObjectId, ref:'Comment'}],
    //tells the schema to expect an array of ID's here, from documents within the 'comments' collection
+   isPro:{type:Boolean,required:true}
+   //remove default:true when it's working right
 });
 
 module.exports = mongoose.model('Post',postSchema);
