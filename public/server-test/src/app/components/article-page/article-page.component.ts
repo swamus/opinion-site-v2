@@ -57,8 +57,12 @@ export class ArticlePageComponent implements OnInit {
       }).subscribe((data) =>{
         console.log(data);
 
-        //this is a silly workaround, there should be a way to get this info FROM the data and not need to grab it from the JWT token
+        
         data.data._creator={username:this.auth.currentUser()};
+        //this is a silly workaround, there should be a way to get this info FROM the data and not need to grab it from the JWT token
+        // If I want to do this, need to write a method to take _creator and get username
+        //probably need to write a post service that makes a server call on the "User Routes", and write an appropriate userCntroller function
+        
         console.log(data);
 
         this.post._comments.push(data.data);
@@ -77,13 +81,34 @@ export class ArticlePageComponent implements OnInit {
       );
   };
   
-  // write a method to take _creator and get username
-  //probably need to write a post service that makes a server call on the "User Routes", and write an appropriate userCntroller function
+  
 
   //How will Upvotes work?
   //
   // $scope.incrementUpvotes=function(comment){
   //     posts.upvoteComment(post,comment)
   // }
+
+  incrementUpvotes=(comment,vote)=>{
+    this.posts.upvoteComment(this.id,comment,vote).subscribe((data)=>{
+      // update the Data.post.score with the score from the updated post
+      comment.score=data.data.score;
+      // if (data.data.isPro) {
+      //   console.log('got into filter');
+      //   console.log(this.proData.find((element)=>{element._id===data.data._id}));
+      //   //console.log(upvotedPost);
+      //   //upvotedPost.score=data.data.score;
+      // } else{
+      //   console.log('got into filter 2');
+      //   this.conData.find((element)=>element._id===data.data._id).score=data.data.score;
+      // }
+      console.log('vote successful');
+
+    },
+    (err)=>{
+      console.error(err)
+    }//final expression not needed?
+    )
+};
 
 }

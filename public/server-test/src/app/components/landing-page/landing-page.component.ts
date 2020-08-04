@@ -70,10 +70,35 @@ export class LandingPageComponent implements OnInit {
       )
   };
 
-  //How will Upvotes work?
+  //Upvoting a post
   //
-  // incrementUpvotes=(post)=>{
-  //     posts.upvote(post);
-  // };
+  //
+  //front end needs to call incrementUpvotes with two arguments
+  //1st argument is the actual post it's being called
+  //2nd argument is 'vote'. This needs to be an object with property {amount: score (1, 0, or -1) }
+  //the score passed in should be a 1 if an upvote was toggled on,
+  //a -1 if a downvote was toggled on
+  //and a 0 if an up/downvote that was already on is toggled *off*
+  incrementUpvotes=(post,vote)=>{
+      this.posts.upvotePost(post,vote).subscribe((data)=>{
+        // update the Data.post.score with the score from the updated post
+        post.score=data.data.score;
+        // if (data.data.isPro) {
+        //   console.log('got into filter');
+        //   console.log(this.proData.find((element)=>{element._id===data.data._id}));
+        //   //console.log(upvotedPost);
+        //   //upvotedPost.score=data.data.score;
+        // } else{
+        //   console.log('got into filter 2');
+        //   this.conData.find((element)=>element._id===data.data._id).score=data.data.score;
+        // }
+        console.log('upvote successful');
+
+      },
+      (err)=>{
+        console.error(err)
+      }//final expression not needed?
+      )
+  };
 
 }

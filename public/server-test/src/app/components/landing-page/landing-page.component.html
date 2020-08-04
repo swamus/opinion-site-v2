@@ -3,28 +3,36 @@
         <div class="header-wrapper">
             <h1 class="page-topic-title">Topic</h1>
             <h2 class="page-question">Buttholes - good or bad?</h2>
-        </div>    
+        </div>
     </div>
 
 
 
     <div class="articles">
 
-<!-- If you need the username of a post creator, it should be stored in item._creator.username -->
+        <!-- If you need the username of a post creator, it should be stored in item._creator.username -->
 
         <div class="column pro-column">
             <h2>Pros</h2>
             <div class="article-block" *ngFor="let item of proData">
                 <h1>{{item.title}}</h1>
                 <p>{{item.text}}</p>
+                <!-- <span>{{item.score}}</span>
+                    <button (click)="incrementUpvotes(item,{amount:1})">upvote</button>
+                    <button (click)="incrementUpvotes(item,{amount:-1})">downvote</button>
+                    <div></div> -->
                 <a [routerLink]="['/article-page', item._id]">More Details</a>
             </div>
         </div>
-        <div class="column con-column" >
+        <div class="column con-column">
             <h2>Cons</h2>
             <div class="article-block" *ngFor="let item of conData">
                 <h1>{{item.title}}</h1>
                 <p>{{item.text}}</p>
+                <!-- <span>{{item.score}}</span>
+                <button (click)="incrementUpvotes(item,{amount:1})">upvote</button>
+                <button (click)="incrementUpvotes(item,{amount:-1})">downvote</button>
+                <div></div> -->
                 <a [routerLink]="['/article-page', item._id]">More Details</a>
             </div>
         </div>
@@ -33,39 +41,32 @@
 
 
 <div>
-<form *ngIf='isLoggedIn()'[formGroup]="postForm" (ngSubmit)="addPost(postForm.value,true)">
-    <h3>Add Post</h3>
-    
-    <div>
-      <input type="text"
-      placeholder="Title"
-      formControlName="title">
-    </div>
-    <div>
-      <input type="text"
-      placeholder="Text"
-      formControlName="text">
-    </div>
-    <button type="submit">Post</button>
-    </form>
-    
-    <form *ngIf='isLoggedIn()'[formGroup]="postForm" (ngSubmit)="addPost(postForm.value,false)">
+    <form *ngIf='isLoggedIn()' [formGroup]="postForm" (ngSubmit)="addPost(postForm.value,true)">
         <h3>Add Post</h3>
-        
+
         <div>
-          <input type="text"
-          placeholder="Title"
-          formControlName="title">
+            <input type="text" placeholder="Title" formControlName="title">
         </div>
         <div>
-          <input type="text"
-          placeholder="Text"
-          formControlName="text">
+            <input type="text" placeholder="Text" formControlName="text">
         </div>
         <button type="submit">Post</button>
-        </form>
-    </div>
+    </form>
 
-    <div *ngIf="!isLoggedIn()">
-        <h3>You need to <a [routerLink]="['/login']">Log In</a> or <a [routerLink]="['/register']">Register</a> before you can add a post.</h3>
-      </div>
+    <form *ngIf='isLoggedIn()' [formGroup]="postForm" (ngSubmit)="addPost(postForm.value,false)">
+        <h3>Add Post</h3>
+
+        <div>
+            <input type="text" placeholder="Title" formControlName="title">
+        </div>
+        <div>
+            <input type="text" placeholder="Text" formControlName="text">
+        </div>
+        <button type="submit">Post</button>
+    </form>
+</div>
+
+<div *ngIf="!isLoggedIn()">
+    <h3>You need to <a [routerLink]="['/login']">Log In</a> or <a [routerLink]="['/register']">Register</a> before you
+        can add a post.</h3>
+</div>

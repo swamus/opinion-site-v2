@@ -12,6 +12,9 @@ const commentSchema = new Schema({
    createdAt:{type:Date,default:Date.now},
    _creator:{type:Schema.ObjectId, ref:'User'},
    _post:{type:Schema.ObjectId, ref:'Post'},
+   //Upvote mechanics
+   score:{type:Number, default:0},
+   //upvotes:[{type:Schema.ObjectId,ref:'User'}]
 });
 
 const autoPopulateCreater =function(next) {

@@ -12,7 +12,7 @@ require('./config/passport');
 
 var routes =require('./routes/routes');
 
-mongoose.connect('mongodb+srv://TestTestTest:TestTestTest@simple-crud-app-xnyg6.mongodb.net/test?retryWrites=true&w=majority', ()=> {
+mongoose.connect('mongodb+srv://TestTestTest:TestTestTest@simple-crud-app-xnyg6.mongodb.net/test?retryWrites=true&w=majority', {useFindAndModify:false},()=> {
     console.log('Connected to MongoDB...');
 });
 

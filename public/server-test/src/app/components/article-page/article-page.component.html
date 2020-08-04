@@ -1,26 +1,29 @@
-    <div class="posts">
-        <div class="column pro-column">
-            <h2>{{post.title}}</h2>
-            <h2>{{post.text}}</h2>
-            <div class="article-block" *ngFor="let item of post._comments">
-                <h5>{{item._creator.username}}</h5>
-                <p>{{item.text}}</p>
-                <!-- Link to comment sub-page -->
-                <!-- <a [routerLink]="['/article-page', item._id]">More Details</a> -->
-            </div>
+<div class="posts">
+    <div class="column pro-column">
+        <h2>{{post.title}}</h2>
+        <h2>{{post.text}}</h2>
+        <div class="article-block" *ngFor="let item of post._comments">
+            <h5>{{item._creator.username}}</h5>
+            <p>{{item.text}}</p>
+            <!-- <span>{{item.score}}</span>
+                    <button (click)="incrementUpvotes(item,{amount:1})">upvote</button>
+                    <button (click)="incrementUpvotes(item,{amount:-1})">downvote</button>
+                    <div></div> -->
+            <!-- Link to comment sub-page -->
+            <!-- <a [routerLink]="['/article-page', item._id]">More Details</a> -->
         </div>
     </div>
+</div>
 
-<form *ngIf='isLoggedIn()'[formGroup]="commentForm" (ngSubmit)="addComment(commentForm.value)">
+<form *ngIf='isLoggedIn()' [formGroup]="commentForm" (ngSubmit)="addComment(commentForm.value)">
     <h3>Add Comment</h3>
-    
+
     <div>
-      <input type="text"
-      placeholder="Add a rebuttal"
-      formControlName="text">
+        <input type="text" placeholder="Add a rebuttal" formControlName="text">
     </div>
     <button type="submit">Post</button>
-    </form>
-    <div *ngIf="!isLoggedIn()">
-        <h3>You need to <a [routerLink]="['/login']">Log In</a> or <a [routerLink]="['/register']">Register</a> before you can add a rebuttal.</h3>
-      </div>
+</form>
+<div *ngIf="!isLoggedIn()">
+    <h3>You need to <a [routerLink]="['/login']">Log In</a> or <a [routerLink]="['/register']">Register</a> before you
+        can add a rebuttal.</h3>
+</div>

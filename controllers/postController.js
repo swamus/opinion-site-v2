@@ -23,6 +23,9 @@ postController.post = (req,res)=>{
     })
 
     post.save().then((newPost)=>{
+        //
+        //If I want to change 'default score' to 1, then I need to create the automatic self-upvote here
+        //
         res.status(200).json({
             success:true,
             data:newPost,
@@ -96,10 +99,10 @@ postController.getOne = (req,res)=>{
 
     req.post.populate({
         path:'_comments',
-        select:'text createdAt _creator',
+        select:'text createdAt _creator score',
         match:{isDeleted:false}
     },function(err, post){
-        console.log('made it to controller');
+        //console.log('made it to controller');
         res.json(post);
     });
 } 

@@ -17,8 +17,11 @@ const postSchema = new Schema({
    //tells the schema to expect an ID here, from a document within the 'users' collection
    _comments:[{type:Schema.ObjectId, ref:'Comment'}],
    //tells the schema to expect an array of ID's here, from documents within the 'comments' collection
-   isPro:{type:Boolean,required:true}
+   isPro:{type:Boolean,required:true},
    //remove default:true when it's working right
+   //Upvote mechanics
+   score:{type:Number,default:0},
+   //upvotes:[{type:Schema.ObjectId,ref:'User'}]
 });
 
 module.exports = mongoose.model('Post',postSchema);

@@ -303,8 +303,10 @@ class ArticlePageComponent {
                 text: commentValue.text,
             }).subscribe((data) => {
                 console.log(data);
-                //this is a silly workaround, there should be a way to get this info FROM the data and not need to grab it from the JWT token
                 data.data._creator = { username: this.auth.currentUser() };
+                //this is a silly workaround, there should be a way to get this info FROM the data and not need to grab it from the JWT token
+                // If I want to do this, need to write a method to take _creator and get username
+                //probably need to write a post service that makes a server call on the "User Routes", and write an appropriate userCntroller function
                 console.log(data);
                 this.post._comments.push(data.data);
                 //this has more data than other comment. Could instead add
@@ -317,6 +319,30 @@ class ArticlePageComponent {
             }, (err) => {
                 console.error(err);
             }, () => { this.commentForm.reset(); });
+        };
+        //How will Upvotes work?
+        //
+        // $scope.incrementUpvotes=function(comment){
+        //     posts.upvoteComment(post,comment)
+        // }
+        this.incrementUpvotes = (comment, vote) => {
+            this.posts.upvoteComment(this.id, comment, vote).subscribe((data) => {
+                // update the Data.post.score with the score from the updated post
+                comment.score = data.data.score;
+                // if (data.data.isPro) {
+                //   console.log('got into filter');
+                //   console.log(this.proData.find((element)=>{element._id===data.data._id}));
+                //   //console.log(upvotedPost);
+                //   //upvotedPost.score=data.data.score;
+                // } else{
+                //   console.log('got into filter 2');
+                //   this.conData.find((element)=>element._id===data.data._id).score=data.data.score;
+                // }
+                console.log('vote successful');
+            }, (err) => {
+                console.error(err);
+            } //final expression not needed?
+            );
         };
         this.commentForm = this.formBuilder.group({
             text: ''
@@ -534,6 +560,34 @@ class LandingPageComponent {
             }, (err) => {
                 console.error(err);
             }, () => { this.postForm.reset(); });
+        };
+        //Upvoting a post
+        //
+        //
+        //front end needs to call incrementUpvotes with two arguments
+        //1st argument is the actual post it's being called
+        //2nd argument is 'vote'. This needs to be an object with property {amount: score (1, 0, or -1) }
+        //the score passed in should be a 1 if an upvote was toggled on,
+        //a -1 if a downvote was toggled on
+        //and a 0 if an up/downvote that was already on is toggled *off*
+        this.incrementUpvotes = (post, vote) => {
+            this.posts.upvotePost(post, vote).subscribe((data) => {
+                // update the Data.post.score with the score from the updated post
+                post.score = data.data.score;
+                // if (data.data.isPro) {
+                //   console.log('got into filter');
+                //   console.log(this.proData.find((element)=>{element._id===data.data._id}));
+                //   //console.log(upvotedPost);
+                //   //upvotedPost.score=data.data.score;
+                // } else{
+                //   console.log('got into filter 2');
+                //   this.conData.find((element)=>element._id===data.data._id).score=data.data.score;
+                // }
+                console.log('upvote successful');
+            }, (err) => {
+                console.error(err);
+            } //final expression not needed?
+            );
         };
         this.postForm = this.formBuilder.group({
             title: '',
@@ -1120,22 +1174,16 @@ class PostsService {
                 headers: { Authorization: 'Bearer ' + this.auth.getToken() }
             }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError));
         };
-        //How will upvotes work?
+        //Upvote posts
         //
-        // upvote=function(post){
-        //     return this.http.put('/api/posts/'+post._id+'/upvote',null,{
-        //         headers:{Authorization: 'Bearer '+this.auth.getToken()}
-        //     }).success(function(data){
-        //         post.upvotes+=1;
-        //     });
-        // };
+        this.upvotePost = function (post, vote) {
+            return this.http.put('/api/posts/' + post._id.toString() + '/upvote', vote, {
+                headers: { Authorization: 'Bearer ' + this.auth.getToken() }
+            }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError));
+        };
         this.get = function (id) {
             return this.http.get('/api/posts/' + id)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError));
-            //.then(function(res){
-            //return res.data
-            //Not sure why this is a "then" acting on res.data instead of a "success" acting on data like the other ones
-            //});
         };
         this.addComment = function (id, comment) {
             return this.http.post('/api/posts/' + id + '/comments', comment, {
@@ -1143,6 +1191,17 @@ class PostsService {
             })
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError));
             //This returns an object with 'success:true', 'data:newComment', and 'existingPost' (the post it's attached to)
+        };
+        //Upvote Comments
+        //
+        this.upvoteComment = function (postId, comment, vote) {
+            return this.http.put('/api/posts/' + postId + '/comments/' + comment._id + '/upvote', vote, {
+                headers: { Authorization: 'Bearer ' + this.auth.getToken() }
+            })
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError));
+            // .success(function(data){
+            //     comment.upvotes+=1;
+            // });
         };
     }
 }
