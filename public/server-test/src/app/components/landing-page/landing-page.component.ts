@@ -12,6 +12,9 @@ export class LandingPageComponent implements OnInit {
 
   postForm;
 
+  zeroTrue: boolean = false;
+  oneTrue: boolean = true;
+
   constructor(
     private auth:AuthService,
     private posts:PostsService,
@@ -31,6 +34,10 @@ export class LandingPageComponent implements OnInit {
     this.posts.getAllPro().subscribe((data)=>{
       console.log('getAllPro successful')
       this.proData = JSON.parse(JSON.stringify(data.data));
+      for (let item of this.proData){
+        item['amount'] = 0;
+      }
+      console.log(this.proData);
     },
     (err)=>{console.error(err);
     })
@@ -80,6 +87,14 @@ export class LandingPageComponent implements OnInit {
   //a -1 if a downvote was toggled on
   //and a 0 if an up/downvote that was already on is toggled *off*
   incrementUpvotes=(post,vote)=>{
+    post.amount=vote.amount;
+    // console.log(post.amount);
+      // if (vote.amount === 1) {
+      //   post.amount=vote.sm
+      // }
+      // if (vote === 0) {
+      //   this.oneTrue = 
+      // }
       this.posts.upvotePost(post,vote).subscribe((data)=>{
         // update the Data.post.score with the score from the updated post
         post.score=data.data.score;

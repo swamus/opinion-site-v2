@@ -13,31 +13,46 @@
         <!-- If you need the username of a post creator, it should be stored in item._creator.username -->
 
         <div class="column pro-column">
-            <h2>Pros</h2>
-            <div class="article-block" *ngFor="let item of proData">
-                <h1>{{item.title}}</h1>
-                <p>{{item.text}}</p>
-                <!-- <span>{{item.score}}</span>
-                    <button (click)="incrementUpvotes(item,{amount:1})">upvote</button>
-                    <button (click)="incrementUpvotes(item,{amount:-1})">downvote</button>
-                    <div></div> -->
-                <a [routerLink]="['/article-page', item._id]">More Details</a>
+            <h2 class="column-header">Pros</h2>
+            <div class="article-wrapper">
+                <div class="article-block" *ngFor="let item of proData">
+                    <div class="article-summary">
+                        <h4>{{item.title}}</h4>
+                        <p>{{item.text}}</p>
+                        <a [routerLink]="['/article-page', item._id]">More Details</a>
+                    </div>
+                    <div class="vote-container">
+                        <button class="material-icons cntr-vote" *ngIf="item.amount !== 1" (click)="incrementUpvotes(item,{amount:1})">arrow_upward</button>
+                        <button class="material-icons cntr-vote cntr-active" *ngIf="item.amount === 1" (click)="incrementUpvotes(item,{amount:0})">arrow_upward</button>
+                        <span class="item-score">{{item.score}}</span>
+                        <button class="material-icons cntr-vote cntr-active" *ngIf="item.amount === -1" (click)="incrementUpvotes(item,{amount:0})">arrow_downward</button>
+                        <button class="material-icons cntr-vote" *ngIf="item.amount !== -1" (click)="incrementUpvotes(item,{amount:-1})">arrow_downward</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="column con-column">
-            <h2>Cons</h2>
-            <div class="article-block" *ngFor="let item of conData">
-                <h1>{{item.title}}</h1>
-                <p>{{item.text}}</p>
-                <!-- <span>{{item.score}}</span>
-                <button (click)="incrementUpvotes(item,{amount:1})">upvote</button>
-                <button (click)="incrementUpvotes(item,{amount:-1})">downvote</button>
-                <div></div> -->
-                <a [routerLink]="['/article-page', item._id]">More Details</a>
+            <h2 class="column-header">Cons</h2>
+            <div class="article-wrapper">
+                <div class="article-block article-con-block" *ngFor="let item of conData">
+                    <div class="article-summary">
+                        <h4>{{item.title}}</h4>
+                        <p>{{item.text}}</p>
+                        <a [routerLink]="['/article-page', item._id]">More Details</a>
+                    </div>
+                    <div class="vote-container">
+                        <button class="material-icons cntr-vote" *ngIf="item.amount !== 1" (click)="incrementUpvotes(item,{amount:1})">arrow_upward</button>
+                        <button class="material-icons cntr-vote cntr-active" *ngIf="item.amount === 1" (click)="incrementUpvotes(item,{amount:0})">arrow_upward</button>
+                        <span class="item-score">{{item.score}}</span>
+                        <button class="material-icons cntr-vote cntr-active" *ngIf="item.amount === -1" (click)="incrementUpvotes(item,{amount:0})">arrow_downward</button>
+                        <button class="material-icons cntr-vote" *ngIf="item.amount !== -1" (click)="incrementUpvotes(item,{amount:-1})">arrow_downward</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <div>
